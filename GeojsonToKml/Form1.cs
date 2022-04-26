@@ -142,9 +142,9 @@ namespace GeojsonToKml {
                             }
 
                             XmlElement xpmk1 = xmlVer.CreateElement("Placemark");
-                            
+
                             JToken gprop = jlst[i]["properties"];
-                            XmlElement xtd = xExtendData(xmlVer,gprop);//ExtendedData
+                            XmlElement xtd = xExtendData(xmlVer, gprop);//ExtendedData
                             xpmk1.AppendChild(xtd);
                             xpmk1.AppendChild(xmugeo1);
                             xdoc.AppendChild(xpmk1);
@@ -194,6 +194,10 @@ namespace GeojsonToKml {
                         else if (jt1 == "MultiPolygon") {
                             XmlElement xpmk1 = xmlVer.CreateElement("Placemark");
                             JToken gprop = jlst[i]["properties"];
+                            XmlElement nameElement = xmlVer.CreateElement("name");
+                            nameElement.InnerText = gprop["name"].ToString() + " - " + gprop["adcode"].ToString();
+                            xpmk1.AppendChild(nameElement);
+
                             xpmk1.AppendChild(xExtendData(xmlVer, gprop));
                             XmlElement xmulgeo = xmlVer.CreateElement("MultiGeometry");
                             Array arr1 = jlst[i]["geometry"]["coordinates"].ToArray();//四维数组
